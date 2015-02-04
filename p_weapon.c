@@ -882,28 +882,14 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 				effect = EF_HYPERBLASTER;
 			else
 				effect = 0;
-			// change the offset radius to 6 (from 4), spread the bolts out a little
+			
 			rotation = (ent->client->ps.gunframe - 5) * 2*M_PI/6;
-			offset[0] = 0;
-			offset[1] = -8 * sin(rotation);
-			offset[2] = 8 * cos(rotation);
+			offset[0] = 4 * sin(rotation);
+			offset[1] = 0;
+			offset[2] = -4 * cos(rotation);
 			Blaster_Fire (ent, offset, 20, true, effect);
 
-			// fire a second blast at a different rotation
-			rotation = (ent->client->ps.gunframe - 5) * 2*M_PI/6 + M_PI*2.0/3.0;
-			offset[0] = 0;
-			offset[1] = -8 * sin(rotation);
-			offset[2] = 8 * cos(rotation);
-			Blaster_Fire (ent, offset, 20, true, effect);
-
-			// fire a third blast at a different rotation
-			rotation = (ent->client->ps.gunframe - 5) * 2*M_PI/6 + M_PI*4.0/3.0;
-			offset[0] = 0;
-			offset[1] = -8 * sin(rotation);
-			offset[2] = 8 * cos(rotation);
-			Blaster_Fire (ent, offset, 20, true, effect);
-			// deduct 3 times the amount of ammo as before (... the *3 on end)
-			ent->client->pers.inventory[ent->client->ammo_index] -= ent->client->pers.weapon->quantity * 3;
+			
 			if (deathmatch->value)
 				damage = 15;
 			else
@@ -1317,12 +1303,12 @@ void weapon_railgun_fire (edict_t *ent)
 	if (deathmatch->value)
 	{	// normal damage is too extreme in dm
 		damage = 100;
-		kick = 200;
+		kick = 50;
 	}
 	else
 	{
 		damage = 150;
-		kick = 250;
+		kick = 50;
 	}
 
 	if (is_quad)
@@ -1363,14 +1349,18 @@ void Weapon_Railgun (edict_t *ent)
 }
 void Weapon_HyperBlaster (edict_t *ent)
 {
-	static int	pause_frames[]	= {56, 0};
-	static int	fire_frames[]	= {4, 0};
+	
+	static int	pause_frames[]	= {23, 45, 0};
+	static int	fire_frames[]	= {4, 5, 0};
 
-	//static int	pause_frames[]	= {19, 32, 0};
-	//static int	fire_frames[]	= {5, 0};
+	Weapon_Generic (ent, 3, 5, 45, 49, pause_frames, fire_frames, weapon_railgun_fire);
+
+	//TESTING OTHER GUNS AND FIRE RATES
+	/*static int	pause_frames[]	= {19, 32, 0};
+	static int	fire_frames[]	= {5, 0};
 	//Weapon_Generic (ent, 3, 5, 45, 49, pause_frames, fire_frames, Weapon_HyperBlaster_Fire);
-	//Weapon_Generic (ent, 3, 18, 56, 61, pause_frames, fire_frames, weapon_railgun_fire);
-	Weapon_Generic (ent, 2, 5, 49, 53, pause_frames, fire_frames, Weapon_HyperBlaster_Fire);
+	Weapon_Generic (ent, 3, 20, 45, 49, pause_frames, fire_frames, weapon_railgun_fire);
+	*/
 }
 
 /*
