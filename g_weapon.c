@@ -1,6 +1,6 @@
 #include "g_local.h"
 
-
+void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
 /*
 =================
 check_dodge
@@ -322,6 +322,18 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 
 	G_FreeEdict (self);
 }
+//Everytime the blaster bullet thinks, it fires a BFG round
+void blaster_think(edict_t *self)
+{
+	vec3_t dir;
+	dir[0] = crandom();
+	dir[1] = crandom();
+	dir[2] = crandom();
+	VectorNormalize (dir);
+	fire_bfg (self->owner, self->s.origin, dir, 100, 200, 100);
+	self->nextthink = level.time + 1;
+
+}
 
 void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
 {
@@ -340,7 +352,7 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 	VectorCopy (start, bolt->s.origin);
 	VectorCopy (start, bolt->s.old_origin);
 	vectoangles (dir, bolt->s.angles);
-	VectorScale (dir, speed, bolt->velocity);
+	VectorScale (dir, speed*0.1, bolt->velocity);
 	bolt->movetype = MOVETYPE_FLYMISSILE;
 	bolt->clipmask = MASK_SHOT;
 	bolt->solid = SOLID_BBOX;
@@ -352,17 +364,17 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 	bolt->owner = self;
 	bolt->touch = blaster_touch;
 	bolt->nextthink = level.time + 2;
-	bolt->think = G_FreeEdict;
+	bolt->think = blaster_think;
 	bolt->dmg = damage;
 	bolt->classname = "bolt";
 	if (hyper)
 		bolt->spawnflags = 1;
-	gi.linkentity (bolt);
+	gi.linkentity (bolt); //Asks game engine to create the bolt with previous specifications
 
 	if (self->client)
 		check_dodge (self, bolt->s.origin, dir, speed);
 
-	tr = gi.trace (self->s.origin, NULL, NULL, bolt->s.origin, bolt, MASK_SHOT);
+	tr = gi.trace (self->s.origin, NULL, NULL, bolt->s.origin, bolt, MASK_SHOT);//is there anything between the player and the tip of the gun. Avoids shooting thru walls
 	if (tr.fraction < 1.0)
 	{
 		VectorMA (bolt->s.origin, -10, dir, bolt->s.origin);
