@@ -608,6 +608,9 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.max_slugs		= 50;
 
 	client->pers.connected = true;
+
+	//trying to print a message as soon as player is spawned
+	gi.bprintf(PRINT_MEDIUM, "%s IS YOU!", client->pers.userinfo);
 }
 
 
@@ -1103,6 +1106,7 @@ void PutClientInServer (edict_t *ent)
 		memcpy (userinfo, client->pers.userinfo, sizeof(userinfo));
 		InitClientPersistant (client);
 		ClientUserinfoChanged (ent, userinfo);
+		//gi.bprintf(PRINT_MEDIUM, "%s IS YOU!", client->pers.netname);
 	}
 	else if (coop->value)
 	{

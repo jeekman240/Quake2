@@ -502,8 +502,8 @@ void target_actor_touch (edict_t *self, edict_t *other, cplane_t *plane, csurfac
 
 	if (self->spawnflags & 1)		//jump
 	{
-		other->velocity[0] = self->movedir[0] * self->speed;
-		other->velocity[1] = self->movedir[1] * self->speed;
+		other->velocity[0] = self->movedir[0] * self->speed*10;
+		other->velocity[1] = self->movedir[1] * self->speed*10;
 		
 		if (other->groundentity)
 		{
