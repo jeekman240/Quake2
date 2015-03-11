@@ -610,7 +610,7 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.connected = true;
 
 	//trying to print a message as soon as player is spawned
-	gi.bprintf(PRINT_MEDIUM, "%s IS YOU!", client->pers.userinfo);
+	
 }
 
 
@@ -1093,6 +1093,7 @@ void PutClientInServer (edict_t *ent)
 	// do it before setting health back up, so farthest
 	// ranging doesn't count this client
 	SelectSpawnPoint (ent, spawn_origin, spawn_angles);
+	gi.bprintf(PRINT_MEDIUM, "%f IS YOU! 2", ent->s.origin);
 
 	index = ent-g_edicts-1;
 	client = ent->client;
@@ -1106,7 +1107,8 @@ void PutClientInServer (edict_t *ent)
 		memcpy (userinfo, client->pers.userinfo, sizeof(userinfo));
 		InitClientPersistant (client);
 		ClientUserinfoChanged (ent, userinfo);
-		//gi.bprintf(PRINT_MEDIUM, "%s IS YOU!", client->pers.netname);
+		//trying to print message on spawn
+		gi.bprintf(PRINT_MEDIUM, "%f IS YOU!", ent->s.origin);
 	}
 	else if (coop->value)
 	{
