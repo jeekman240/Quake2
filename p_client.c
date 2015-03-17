@@ -1093,7 +1093,7 @@ void PutClientInServer (edict_t *ent)
 	// do it before setting health back up, so farthest
 	// ranging doesn't count this client
 	SelectSpawnPoint (ent, spawn_origin, spawn_angles);
-	gi.bprintf(PRINT_MEDIUM, "%f IS YOU! 2", ent->s.origin);
+	gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! 2", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
 
 	index = ent-g_edicts-1;
 	client = ent->client;
@@ -1275,6 +1275,7 @@ void ClientBeginDeathmatch (edict_t *ent)
 	}
 
 	gi.bprintf (PRINT_HIGH, "%s entered the game\n", ent->client->pers.netname);
+	gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! 3", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
 
 	// make sure all view stuff is valid
 	ClientEndServerFrame (ent);
@@ -1573,7 +1574,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 
 	level.current_entity = ent;
 	client = ent->client;
-
+	gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! NOW", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
 	if (level.intermissiontime)
 	{
 		client->ps.pmove.pm_type = PM_FREEZE;
