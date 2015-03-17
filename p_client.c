@@ -1,6 +1,7 @@
 #include "g_local.h"
 #include "m_player.h"
 
+void SP_monster_berserk (edict_t *self);
 void ClientUserinfoChanged (edict_t *ent, char *userinfo);
 
 void SP_misc_teleporter_dest (edict_t *ent);
@@ -1259,8 +1260,11 @@ deathmatch mode, so clear everything out before starting them.
 */
 void ClientBeginDeathmatch (edict_t *ent)
 {
+
+	edict_t *mybadguy;
 	gclient_t *client;
 	G_InitEdict (ent);
+
 
 	InitClientResp (ent->client);
 
@@ -1268,7 +1272,7 @@ void ClientBeginDeathmatch (edict_t *ent)
 	PutClientInServer (ent);
 
 	client = ent->client;
-	client->pers.jetpackjuice = 0;
+	client->pers.jetpackjuice = 300;
 	client->pers.max_jetpackjuice = 300;
 
 	if (level.intermissiontime)
@@ -1289,6 +1293,13 @@ void ClientBeginDeathmatch (edict_t *ent)
 
 	// make sure all view stuff is valid
 	ClientEndServerFrame (ent);
+	//trying to set start position of monster that spawns at beginning of the match
+	mybadguy = G_Spawn();
+	mybadguy->s.origin[0] = 1224.875;
+	mybadguy->s.origin[1] = 632.000;
+	mybadguy->s.origin[2] = 472.125;
+
+	SP_monster_berserk(mybadguy);
 }
 
 
