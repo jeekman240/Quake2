@@ -588,6 +588,10 @@ but is called after each death and level change in deathmatch
 void InitClientPersistant (gclient_t *client)
 {
 	gitem_t		*item;
+	int	max_jetpackjuice;
+	int jetpackjuice;
+
+	max_jetpackjuice = client->pers.jetpackjuice;
 
 	memset (&client->pers, 0, sizeof(client->pers));
 
@@ -609,7 +613,8 @@ void InitClientPersistant (gclient_t *client)
 
 	client->pers.connected = true;
 
-	//trying to print a message as soon as player is spawned
+	client->pers.max_jetpackjuice = max_jetpackjuice;
+	client->pers.jetpackjuice = 0;
 	
 }
 
@@ -1254,12 +1259,17 @@ deathmatch mode, so clear everything out before starting them.
 */
 void ClientBeginDeathmatch (edict_t *ent)
 {
+	gclient_t *client;
 	G_InitEdict (ent);
 
 	InitClientResp (ent->client);
 
 	// locate ent at a spawn point
 	PutClientInServer (ent);
+
+	client = ent->client;
+	client->pers.jetpackjuice = 0;
+	client->pers.max_jetpackjuice = 300;
 
 	if (level.intermissiontime)
 	{
@@ -1275,7 +1285,7 @@ void ClientBeginDeathmatch (edict_t *ent)
 	}
 
 	gi.bprintf (PRINT_HIGH, "%s entered the game\n", ent->client->pers.netname);
-	gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! 3", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
+	//gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! 3", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
 
 	// make sure all view stuff is valid
 	ClientEndServerFrame (ent);
@@ -1759,6 +1769,7 @@ void ClientBeginServerFrame (edict_t *ent)
 		return;
 
 	client = ent->client;
+	gi.centerprintf(ent,"Jetpack Juice: %i / %i \n",client->pers.jetpackjuice,client->pers.max_jetpackjuice);
 
 	if (deathmatch->value &&
 		client->pers.spectator != client->resp.spectator &&

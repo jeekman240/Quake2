@@ -844,6 +844,9 @@ typedef struct
 	int			helpchanged;
 
 	qboolean	spectator;			// client is a spectator
+
+	int			max_jetpackjuice;	//maximum jetpack juice for the player
+	int			jetpackjuice;		//current jetpack juice that the player has		
 } client_persistant_t;
 
 // client data that stays across deathmatch respawns
