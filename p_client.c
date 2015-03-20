@@ -2,6 +2,7 @@
 #include "m_player.h"
 
 void SP_monster_berserk (edict_t *self);
+void SP_misc_explobox (edict_t *self);	//adds button to press and begin monster spawn
 void ClientUserinfoChanged (edict_t *ent, char *userinfo);
 
 void SP_misc_teleporter_dest (edict_t *ent);
@@ -1261,7 +1262,7 @@ deathmatch mode, so clear everything out before starting them.
 void ClientBeginDeathmatch (edict_t *ent)
 {
 
-	edict_t *mybadguy;
+	edict_t *firstExplodeBarrel;
 	gclient_t *client;
 	G_InitEdict (ent);
 
@@ -1293,13 +1294,15 @@ void ClientBeginDeathmatch (edict_t *ent)
 
 	// make sure all view stuff is valid
 	ClientEndServerFrame (ent);
-	//trying to set start position of monster that spawns at beginning of the match
-	mybadguy = G_Spawn();
-	mybadguy->s.origin[0] = 1224.875;
-	mybadguy->s.origin[1] = 632.000;
-	mybadguy->s.origin[2] = 472.125;
 
-	SP_monster_berserk(mybadguy);
+	//trying to set start position of barrell that spawns at beginning of the match
+	firstExplodeBarrel = G_Spawn();
+	firstExplodeBarrel->s.origin[0] = 1224.875;
+	firstExplodeBarrel->s.origin[1] = 632.000;
+	firstExplodeBarrel->s.origin[2] = 472.125;
+
+	//SP_monster_berserk(mybadguy);		spawning explode box instead of monster
+	SP_misc_explobox(firstExplodeBarrel);
 }
 
 
@@ -1595,7 +1598,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 
 	level.current_entity = ent;
 	client = ent->client;
-	gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! NOW", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
+	//gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! NOW", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
 	if (level.intermissiontime)
 	{
 		client->ps.pmove.pm_type = PM_FREEZE;

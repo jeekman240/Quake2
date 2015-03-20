@@ -954,12 +954,14 @@ void barrel_delay (edict_t *self, edict_t *inflictor, edict_t *attacker, int dam
 
 void SP_misc_explobox (edict_t *self)
 {
+	//spawns initial explodebox that will spawn the first monster wave
+	/*
 	if (deathmatch->value)
 	{	// auto-remove for deathmatch
 		G_FreeEdict (self);
 		return;
 	}
-
+	*/
 	gi.modelindex ("models/objects/debris1/tris.md2");
 	gi.modelindex ("models/objects/debris2/tris.md2");
 	gi.modelindex ("models/objects/debris3/tris.md2");
@@ -989,6 +991,7 @@ void SP_misc_explobox (edict_t *self)
 	self->nextthink = level.time + 2 * FRAMETIME;
 
 	gi.linkentity (self);
+	
 }
 
 
