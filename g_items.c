@@ -16,6 +16,8 @@ void Weapon_Grenade (edict_t *ent);
 void Weapon_GrenadeLauncher (edict_t *ent);
 void Weapon_Railgun (edict_t *ent);
 void Weapon_BFG (edict_t *ent);
+void Weapon_PistolRocket (edict_t *ent);
+
 
 gitem_armor_t jacketarmor_info	= { 25,  50, .30, .00, ARMOR_JACKET};
 gitem_armor_t combatarmor_info	= { 50, 100, .60, .30, ARMOR_COMBAT};
@@ -1427,8 +1429,7 @@ always owned, never in the world
 		0,
 /* precache */ "models/objects/grenade/tris.md2 weapons/grenlf1a.wav weapons/grenlr1b.wav weapons/grenlb1b.wav"
 	},
-
-/*QUAKED weapon_rocketlauncher (.3 .3 1) (-16 -16 -16) (16 16 16)
+	/*QUAKED weapon_rocketlauncher (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
 		"weapon_rocketlauncher",
@@ -1450,6 +1451,7 @@ always owned, never in the world
 		0,
 /* precache */ "models/objects/rocket/tris.md2 weapons/rockfly.wav weapons/rocklf1a.wav weapons/rocklr1b.wav models/objects/debris2/tris.md2"
 	},
+
 
 /*QUAKED weapon_hyperblaster (.3 .3 1) (-16 -16 -16) (16 16 16)
 */

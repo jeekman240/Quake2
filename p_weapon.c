@@ -789,7 +789,7 @@ void Weapon_RocketLauncher (edict_t *ent)
 /*
 ======================================================================
 
-BLASTER / HYPERBLASTER
+BLASTER / HYPERBLASTER / MIKE BLASTER MODS
 
 ======================================================================
 */
@@ -835,6 +835,14 @@ void Weapon_Blaster_Fire (edict_t *ent)
 		damage = 10;
 	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
 	ent->client->ps.gunframe++;
+}
+
+void  Weapon_PistolRocket (edict_t *ent)
+{
+	static int	pause_frames[]	= {19, 32, 0};
+	static int	fire_frames[]	= {5, 0};
+
+	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
 }
 
 void Weapon_Blaster (edict_t *ent)
