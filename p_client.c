@@ -1,10 +1,10 @@
 #include "g_local.h"
 #include "m_player.h"
 
+void SP_Monster_Barrel (edict_t *self);
 void SP_monster_berserk (edict_t *self);
 void SP_misc_explobox (edict_t *self);	//adds button to press and begin monster spawn
 void ClientUserinfoChanged (edict_t *ent, char *userinfo);
-
 void SP_misc_teleporter_dest (edict_t *ent);
 
 //
@@ -1296,16 +1296,32 @@ void ClientBeginDeathmatch (edict_t *ent)
 	ClientEndServerFrame (ent);
 
 	//trying to set start position of barrell that spawns at beginning of the match
+	/*
 	firstExplodeBarrel = G_Spawn();
 	firstExplodeBarrel->s.origin[0] = 1224.875;
 	firstExplodeBarrel->s.origin[1] = 632.000;
 	firstExplodeBarrel->s.origin[2] = 472.125;
-
+	*/
 	//SP_monster_berserk(mybadguy);		spawning explode box instead of monster
-	SP_misc_explobox(firstExplodeBarrel);
+	SP_Monster_Barrel(firstExplodeBarrel);
 }
 
+//Function that spawns exploding barrel at specific location
 
+void SP_Monster_Barrel (edict_t *self)
+{
+	//edict_t *firstExplodeBarrel;
+	
+	//trying to set start position of barrell that spawns at beginning of the match
+	self = G_Spawn();
+	self->s.origin[0] = 1224.875;
+	self->s.origin[1] = 632.000;
+	self->s.origin[2] = 472.125;
+
+	SP_misc_explobox(self);
+
+	
+}
 /*
 ===========
 ClientBegin

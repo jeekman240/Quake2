@@ -867,6 +867,7 @@ void barrel_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *s
 
 void barrel_explode (edict_t *self)
 {
+	edict_t *testMonsterSpawn;
 	vec3_t	org;
 	float	spd;
 	vec3_t	save;
@@ -937,23 +938,39 @@ void barrel_explode (edict_t *self)
 	org[2] = self->s.origin[2] + crandom() * self->size[2];
 	ThrowDebris (self, "models/objects/debris2/tris.md2", spd, org);
 
+	//SPAWNS MONSTER AFTER BARRELL EXPLODES
+	testMonsterSpawn = G_Spawn();
+	testMonsterSpawn->s.origin[0] = 1224.875;
+	testMonsterSpawn->s.origin[1] = 632.000;
+	testMonsterSpawn->s.origin[2] = 472.125;
+	//SPAWNS BERSERK TYPE MONSTER
+	SP_monster_berserk(testMonsterSpawn);
+
 	VectorCopy (save, self->s.origin);
 	if (self->groundentity)
 		BecomeExplosion2 (self);
 	else
 		BecomeExplosion1 (self);
+		
+	
+
+	
+	
 }
 
 void barrel_delay (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
+	
 	self->takedamage = DAMAGE_NO;
 	self->nextthink = level.time + 2 * FRAMETIME;
 	self->think = barrel_explode;
 	self->activator = attacker;
+	
 }
 
 void SP_misc_explobox (edict_t *self)
 {
+	
 	//spawns initial explodebox that will spawn the first monster wave
 	/*
 	if (deathmatch->value)
@@ -962,6 +979,7 @@ void SP_misc_explobox (edict_t *self)
 		return;
 	}
 	*/
+
 	gi.modelindex ("models/objects/debris1/tris.md2");
 	gi.modelindex ("models/objects/debris2/tris.md2");
 	gi.modelindex ("models/objects/debris3/tris.md2");
@@ -980,7 +998,7 @@ void SP_misc_explobox (edict_t *self)
 		self->health = 10;
 	if (!self->dmg)
 		self->dmg = 150;
-
+	
 	self->die = barrel_delay;
 	self->takedamage = DAMAGE_YES;
 	self->monsterinfo.aiflags = AI_NOSTEP;
@@ -991,6 +1009,9 @@ void SP_misc_explobox (edict_t *self)
 	self->nextthink = level.time + 2 * FRAMETIME;
 
 	gi.linkentity (self);
+
+	
+
 	
 }
 
