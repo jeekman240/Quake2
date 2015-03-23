@@ -846,8 +846,8 @@ typedef struct
 
 	qboolean	spectator;			// client is a spectator
 
-	int			max_jetpackjuice;	//maximum jetpack juice for the player
-	int			jetpackjuice;		//current jetpack juice that the player has		
+	int			maxsuperjumps;	//maximum jetpack juice for the player
+	int			superjumps;		//current jetpack juice that the player has		
 } client_persistant_t;
 
 // client data that stays across deathmatch respawns
@@ -1099,6 +1099,7 @@ struct edict_s
 	//variables for superjump 
 	qboolean	super_jumping;
 	int			super_jump_time;
+	int			super_jumps;
 
 };
 

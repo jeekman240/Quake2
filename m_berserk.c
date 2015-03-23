@@ -377,10 +377,14 @@ void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 
 	if (self->deadflag == DEAD_DEAD)
 		return;
+	
+		
 
 	gi.sound (self, CHAN_VOICE, sound_die, 1, ATTN_NORM, 0);
 	self->deadflag = DEAD_DEAD;
 	self->takedamage = DAMAGE_YES;
+	attacker->client->resp.score++;
+	attacker->client->pers.superjumps +=2;
 
 	if (damage >= 50)
 		self->monsterinfo.currentmove = &berserk_move_death1;
@@ -393,6 +397,7 @@ void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 */
 void SP_monster_berserk (edict_t *self)
 {
+	//ALLOWS MONSTER TO SPAWN IN DEATHMATCH
 	/*
 	if (deathmatch->value)
 	{

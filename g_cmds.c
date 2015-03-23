@@ -976,6 +976,7 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+
 	else if (Q_stricmp(cmd, "superjump") == 0)
 		SuperJump(ent);
 	else	// anything that doesn't match a command will be a chat

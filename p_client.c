@@ -590,10 +590,11 @@ but is called after each death and level change in deathmatch
 void InitClientPersistant (gclient_t *client)
 {
 	gitem_t		*item;
-	int	max_jetpackjuice;
-	int jetpackjuice;
+	int			max_super_jumps;
+	int			super_jumps;
 
-	max_jetpackjuice = client->pers.jetpackjuice;
+	max_super_jumps = client->pers.maxsuperjumps;
+	super_jumps = client->pers.superjumps;
 
 	memset (&client->pers, 0, sizeof(client->pers));
 
@@ -615,8 +616,9 @@ void InitClientPersistant (gclient_t *client)
 
 	client->pers.connected = true;
 
-	client->pers.max_jetpackjuice = max_jetpackjuice;
-	client->pers.jetpackjuice = 0;
+	client->pers.maxsuperjumps = max_super_jumps;
+	client->pers.superjumps = client->pers.maxsuperjumps * 0.5;
+	
 	
 }
 
@@ -1100,11 +1102,11 @@ void PutClientInServer (edict_t *ent)
 	// do it before setting health back up, so farthest
 	// ranging doesn't count this client
 	SelectSpawnPoint (ent, spawn_origin, spawn_angles);
-	gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! 2", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
-
+	//gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! 2", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
+	
 	index = ent-g_edicts-1;
 	client = ent->client;
-
+	gi.centerprintf(ent,"%i / %i Super Jumps", client->pers.superjumps,client->pers.maxsuperjumps);
 	// deathmatch wipes most client data every spawn
 	if (deathmatch->value)
 	{
@@ -1273,9 +1275,10 @@ void ClientBeginDeathmatch (edict_t *ent)
 	PutClientInServer (ent);
 
 	client = ent->client;
-	client->pers.jetpackjuice = 300;
-	client->pers.max_jetpackjuice = 300;
-
+	client->pers.superjumps = 0;
+	client->pers.maxsuperjumps = 3;
+	gi.centerprintf(ent,"%i / %i Super Jumps", client->pers.superjumps,client->pers.maxsuperjumps);
+	
 	if (level.intermissiontime)
 	{
 		MoveClientToIntermission (ent);
@@ -1317,7 +1320,7 @@ void SP_Monster_Barrel (edict_t *self)
 	self->s.origin[0] = 1224.875;
 	self->s.origin[1] = 632.000;
 	self->s.origin[2] = 472.125;
-
+	
 	SP_misc_explobox(self);
 
 	
@@ -1821,7 +1824,7 @@ void ClientBeginServerFrame (edict_t *ent)
 		return;
 
 	client = ent->client;
-	//gi.centerprintf(ent,"Jetpack Juice: %i / %i \n",client->pers.jetpackjuice,client->pers.max_jetpackjuice);
+	gi.centerprintf(ent,"Super Jumps: %i / %i \n",client->pers.superjumps,client->pers.maxsuperjumps);
 
 	if (deathmatch->value &&
 		client->pers.spectator != client->resp.spectator &&
