@@ -1614,7 +1614,10 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 
 	level.current_entity = ent;
 	client = ent->client;
-	//gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! NOW", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
+
+
+	
+
 	if (level.intermissiontime)
 	{
 		client->ps.pmove.pm_type = PM_FREEZE;
@@ -1647,13 +1650,31 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		else
 			client->ps.pmove.pm_type = PM_NORMAL;
 
-		client->ps.pmove.gravity = sv_gravity->value;
+		//client->ps.pmove.gravity = sv_gravity->value; ORIGINAL GRAVITY
+		if (ent->super_jumping)
+		{
+			ent->super_jump_time--;
+			if(ent->super_jump_time <= 0)
+			{
+				ent->super_jumping = false;
+			}
+			client->ps.pmove.gravity = (sv_gravity->value)/5;
+		}
+		else
+		{
+			client->ps.pmove.gravity = sv_gravity->value;
+		}
+		
+		
+		
+		
 		pm.s = client->ps.pmove;
 
 		for (i=0 ; i<3 ; i++)
 		{
 			pm.s.origin[i] = ent->s.origin[i]*8;
 			pm.s.velocity[i] = ent->velocity[i]*8;
+			
 		}
 
 		if (memcmp(&client->old_pmove, &pm.s, sizeof(pm.s)))
@@ -1674,6 +1695,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		client->ps.pmove = pm.s;
 		client->old_pmove = pm.s;
 
+		
 		for (i=0 ; i<3 ; i++)
 		{
 			ent->s.origin[i] = pm.s.origin[i]*0.125;
@@ -1799,7 +1821,7 @@ void ClientBeginServerFrame (edict_t *ent)
 		return;
 
 	client = ent->client;
-	gi.centerprintf(ent,"Jetpack Juice: %i / %i \n",client->pers.jetpackjuice,client->pers.max_jetpackjuice);
+	//gi.centerprintf(ent,"Jetpack Juice: %i / %i \n",client->pers.jetpackjuice,client->pers.max_jetpackjuice);
 
 	if (deathmatch->value &&
 		client->pers.spectator != client->resp.spectator &&

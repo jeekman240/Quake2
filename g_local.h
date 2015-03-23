@@ -1095,5 +1095,10 @@ struct edict_s
 	// common data blocks
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
+
+	//variables for superjump 
+	qboolean	super_jumping;
+	int			super_jump_time;
+
 };
 
