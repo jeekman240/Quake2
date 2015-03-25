@@ -1299,7 +1299,7 @@ void ClientBeginDeathmatch (edict_t *ent)
 	ClientEndServerFrame (ent);
 
 	
-	SP_Monster_Barrel(firstExplodeBarrel,firstExplodeBarrel->s.origin);
+	SP_Monster_Barrel(firstExplodeBarrel);
 	
 }
 
