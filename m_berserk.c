@@ -363,6 +363,7 @@ void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 {
 	int		n;
 	edict_t *newBarrel;
+	edict_t *superJumpOrb;
 	vec3_t save;
 
 	VectorCopy(self->s.origin,newBarrel->s.origin);
@@ -407,7 +408,13 @@ void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 		self->monsterinfo.currentmove = &berserk_move_death2;
 	
 	//SPAWNS BARREL AFTER MONSTER DIES
-	SP_Monster_Barrel(newBarrel);
+	if(attacker->client->resp.score < 3) //only allows player to kill 3 monsters
+	{
+		SP_Monster_Barrel(newBarrel);
+		SP_SuperJump_Powerup (superJumpOrb);
+	}
+	else
+		gi.centerprintf(attacker, "CONGRATS!YOU BEAT ALL MONSTER WAVES!");
 }
 
 

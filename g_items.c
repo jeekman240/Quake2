@@ -543,7 +543,7 @@ qboolean Pickup_Health (edict_t *ent, edict_t *other)
 			return false;
 
 	other->health += ent->count;
-
+	
 	if (!(ent->style & HEALTH_IGNORE_MAX))
 	{
 		if (other->health > other->max_health)
@@ -552,6 +552,8 @@ qboolean Pickup_Health (edict_t *ent, edict_t *other)
 
 	if (ent->style & HEALTH_TIMED)
 	{
+		other->client->pers.superjumps +=2;
+		gi.centerprintf(other, "You GAINED 2 Super Jumps");
 		ent->think = MegaHealth_think;
 		ent->nextthink = level.time + 5;
 		ent->owner = other;

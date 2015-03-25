@@ -1333,6 +1333,32 @@ void SP_Monster_Barrel (edict_t *self)
 	
 	
 }
+
+void SP_SuperJump_Powerup (edict_t *self)
+{
+	/*
+	int count,i;
+	count = 0;
+
+
+	//Calculcates how many clients are connected to game
+	for (i = 0 ; i < maxclients->value ; i++)
+	{
+		if (game.clients[i].pers.connected)
+		{
+			count++;
+		}
+	}
+	*/
+	
+	self = G_Spawn();
+	VectorSet (self->s.origin, 1224.875, 632.000, 972.125);
+	self->gravity = 0;
+	SP_item_health_mega(self);
+	
+	
+	
+}
 /*
 ===========
 ClientBegin

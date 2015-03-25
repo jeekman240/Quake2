@@ -676,6 +676,8 @@ qboolean M_CheckAttack (edict_t *self);
 void M_FlyCheck (edict_t *self);
 void M_CheckGround (edict_t *ent);
 void SP_Monster_Barrel (edict_t *self);
+void SP_SuperJump_Powerup (edict_t *self);
+void SP_item_health_mega (edict_t *self);
 
 
 //
