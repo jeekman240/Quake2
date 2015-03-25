@@ -816,6 +816,8 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 
 	if(effect == EF_FLIES)
 		fire_blaster (ent, start, forward, damage, 500, effect, hyper);
+	else if(effect == EF_BFG)
+		fire_blaster (ent, start, forward, damage*1.4, 1500, effect, hyper);
 	else
 		fire_blaster (ent, start, forward, damage, 1000, effect, hyper);
 
@@ -860,6 +862,21 @@ void Weapon_Blaster_Fire_Flies (edict_t *ent)
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		ent->client->pers.inventory[ent->client->ammo_index]--;
 }
+
+void Weapon_Blaster_Fire_Hyper (edict_t *ent)
+{
+	int		damage;
+
+	if (deathmatch->value)
+		damage = 20;
+	else
+		damage = 10;
+	
+	Blaster_Fire (ent, vec3_origin, damage, false, EF_BFG);
+	ent->client->ps.gunframe++;
+	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		ent->client->pers.inventory[ent->client->ammo_index]--;
+}
 void  Weapon_PistolRocket (edict_t *ent)
 {
 	static int	pause_frames[]	= {19, 32, 0};
@@ -882,6 +899,14 @@ void Weapon_Blaster_Flies (edict_t *ent)
 	static int	fire_frames[]	= {5, 0};
 
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire_Flies);
+}
+
+void Weapon_Blaster_Hyper (edict_t *ent)
+{
+	static int	pause_frames[]	= {19, 32, 0};
+	static int	fire_frames[]	= {5, 0};
+
+	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire_Hyper);
 }
 void Weapon_HyperBlaster_Fire (edict_t *ent)
 {

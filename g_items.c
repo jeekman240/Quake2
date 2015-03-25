@@ -1344,6 +1344,30 @@ MY Modified handgun that will shoot flies
 /* precache */ //"weapons/shotgf1b.wav weapons/shotgr1b.wav"
 	//},
 
+	/*
+	MY Modified handgun that will shoot flies
+	
+*/
+	{
+		"weapon_machinegun", 
+		Pickup_Weapon,
+		Use_Weapon,
+		NULL,
+		Weapon_Blaster_Hyper,
+		"misc/w_pkup.wav",
+		"models/weapons/g_machn/tris.md2", EF_BFG,
+		"models/weapons/v_blast/tris.md2",
+/* icon */		"w_machinegun",
+/* pickup */	"Machinegun",
+		0,
+		1,
+		"Bullets",
+		IT_WEAPON|IT_STAY_COOP,
+		WEAP_BLASTER,
+		NULL,
+		0,
+/* precache */ "weapons/blastf1a.wav misc/lasfly.wav"
+	},
 /*QUAKED weapon_supershotgun (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
@@ -1367,28 +1391,7 @@ MY Modified handgun that will shoot flies
 /* precache */ "weapons/sshotf1b.wav"
 	},
 
-/*QUAKED weapon_machinegun (.3 .3 1) (-16 -16 -16) (16 16 16)
-*/
-	{
-		"weapon_machinegun", 
-		Pickup_Weapon,
-		Use_Weapon,
-		Drop_Weapon,
-		Weapon_Machinegun,
-		"misc/w_pkup.wav",
-		"models/weapons/g_machn/tris.md2", EF_ROTATE,
-		"models/weapons/v_machn/tris.md2",
-/* icon */		"w_machinegun",
-/* pickup */	"Machinegun",
-		0,
-		1,
-		"Bullets",
-		IT_WEAPON|IT_STAY_COOP,
-		WEAP_MACHINEGUN,
-		NULL,
-		0,
-/* precache */ "weapons/machgf1b.wav weapons/machgf2b.wav weapons/machgf3b.wav weapons/machgf4b.wav weapons/machgf5b.wav"
-	},
+
 
 /*QUAKED weapon_chaingun (.3 .3 1) (-16 -16 -16) (16 16 16)
 */

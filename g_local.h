@@ -678,8 +678,8 @@ void M_CheckGround (edict_t *ent);
 void SP_Monster_Barrel (edict_t *self);
 void SP_SuperJump_Powerup (edict_t *self);
 void SP_item_health_mega (edict_t *self);
-
-
+void Weapon_Blaster_Fire_Hyper (edict_t *ent);
+void Weapon_Blaster_Hyper (edict_t *ent);
 //
 // g_misc.c
 //
