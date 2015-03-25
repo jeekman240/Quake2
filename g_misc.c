@@ -875,6 +875,16 @@ void barrel_explode (edict_t *self)
 	T_RadiusDamage (self, self->activator, self->dmg, NULL, self->dmg+40, MOD_BARREL);
 
 	VectorCopy (self->s.origin, save);
+
+	//SPAWNS MONSTER AFTER BARRELL EXPLODES
+	testMonsterSpawn = G_Spawn();
+	testMonsterSpawn->s.origin[0] = 1224.875;
+	testMonsterSpawn->s.origin[1] = 632.000;
+	testMonsterSpawn->s.origin[2] = 472.125;
+	//SPAWNS BERSERK TYPE MONSTER
+	SP_monster_berserk(testMonsterSpawn);
+
+
 	VectorMA (self->absmin, 0.5, self->size, self->s.origin);
 
 	// a few big chunks
@@ -939,13 +949,14 @@ void barrel_explode (edict_t *self)
 	ThrowDebris (self, "models/objects/debris2/tris.md2", spd, org);
 
 	//SPAWNS MONSTER AFTER BARRELL EXPLODES
+	/*
 	testMonsterSpawn = G_Spawn();
 	testMonsterSpawn->s.origin[0] = 1224.875;
 	testMonsterSpawn->s.origin[1] = 632.000;
 	testMonsterSpawn->s.origin[2] = 472.125;
 	//SPAWNS BERSERK TYPE MONSTER
 	SP_monster_berserk(testMonsterSpawn);
-
+	*/
 	VectorCopy (save, self->s.origin);
 	if (self->groundentity)
 		BecomeExplosion2 (self);

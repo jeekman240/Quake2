@@ -362,6 +362,11 @@ mmove_t berserk_move_death2 = {FRAME_deathc1, FRAME_deathc8, berserk_frames_deat
 void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
 	int		n;
+	edict_t *newBarrel;
+	vec3_t save;
+
+	VectorCopy(self->s.origin,newBarrel->s.origin);
+	VectorCopy(newBarrel->s.origin,save);
 
 	if (self->health <= self->gib_health)
 	{
@@ -381,16 +386,28 @@ void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 		
 
 	gi.sound (self, CHAN_VOICE, sound_die, 1, ATTN_NORM, 0);
+	
+	
+
 	self->deadflag = DEAD_DEAD;
 	self->takedamage = DAMAGE_YES;
+
+	//WENT THRU ALL OF THE DYING, GIVES A POINT AND SUPER JUMPS
 	attacker->client->resp.score++;
 	attacker->client->pers.superjumps += 3;
-	gi.centerprintf(attacker, "GAINED 3 SUPERJUMPS");
+	
+
+	//TELLS YOU THAT YOU HAVE SUPERJUMPS
 	gi.centerprintf(attacker, "YOU NOW HAVE %i SUPERJUMPS", attacker->client->pers.superjumps);
+
+
 	if (damage >= 50)
 		self->monsterinfo.currentmove = &berserk_move_death1;
 	else
 		self->monsterinfo.currentmove = &berserk_move_death2;
+	
+	//SPAWNS BARREL AFTER MONSTER DIES
+	SP_Monster_Barrel(newBarrel);
 }
 
 

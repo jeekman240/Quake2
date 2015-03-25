@@ -1,11 +1,12 @@
 #include "g_local.h"
 #include "m_player.h"
 
-void SP_Monster_Barrel (edict_t *self);
+
 void SP_monster_berserk (edict_t *self);
 void SP_misc_explobox (edict_t *self);	//box to explode and begin monster spawn
 void ClientUserinfoChanged (edict_t *ent, char *userinfo);
 void SP_misc_teleporter_dest (edict_t *ent);
+int barrelSpawnCount = 0;
 
 //
 // Gross, ugly, disgustuing hack section
@@ -1267,7 +1268,7 @@ void ClientBeginDeathmatch (edict_t *ent)
 	gclient_t *client;
 	G_InitEdict (ent);
 	
-
+	VectorSet (firstExplodeBarrel->s.origin, 1224.875, 632.000, 472.125);
 
 	InitClientResp (ent->client);
 
@@ -1298,7 +1299,7 @@ void ClientBeginDeathmatch (edict_t *ent)
 	ClientEndServerFrame (ent);
 
 	
-	SP_Monster_Barrel(firstExplodeBarrel);
+	SP_Monster_Barrel(firstExplodeBarrel,firstExplodeBarrel->s.origin);
 	
 }
 
@@ -1309,13 +1310,19 @@ void SP_Monster_Barrel (edict_t *self)
 	int count,i;
 	count = 0;
 
+	self = G_Spawn();
+	VectorSet (self->s.origin, 1224.875, 632.000, 472.125);
+
+
 	//Calculcates how many clients are connected to game
 	for (i = 0 ; i < maxclients->value ; i++)
+	{
 		if (game.clients[i].pers.connected)
 		{
 			count++;
 		}
-	gi.centerprintf(self, "%i Players in this game", count);
+	}
+	
 	//Verifies that only one barrel spawns (in the middle) at beginning of the match
 	if(count<2)
 	{
@@ -1323,6 +1330,7 @@ void SP_Monster_Barrel (edict_t *self)
 		VectorSet (self->s.origin, 1224.875, 632.000, 472.125);
 		SP_misc_explobox(self);
 	}
+	
 	
 }
 /*

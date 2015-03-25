@@ -675,6 +675,8 @@ void M_CatagorizePosition (edict_t *ent);
 qboolean M_CheckAttack (edict_t *self);
 void M_FlyCheck (edict_t *self);
 void M_CheckGround (edict_t *ent);
+void SP_Monster_Barrel (edict_t *self);
+
 
 //
 // g_misc.c
@@ -1100,6 +1102,7 @@ struct edict_s
 	qboolean	super_jumping;
 	int			super_jump_time;
 	int			super_jumps;
-
+	
+	
 };
 
