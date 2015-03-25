@@ -384,8 +384,9 @@ void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 	self->deadflag = DEAD_DEAD;
 	self->takedamage = DAMAGE_YES;
 	attacker->client->resp.score++;
-	attacker->client->pers.superjumps +=2;
-
+	attacker->client->pers.superjumps += 3;
+	gi.centerprintf(attacker, "GAINED 3 SUPERJUMPS");
+	gi.centerprintf(attacker, "YOU NOW HAVE %i SUPERJUMPS", attacker->client->pers.superjumps);
 	if (damage >= 50)
 		self->monsterinfo.currentmove = &berserk_move_death1;
 	else

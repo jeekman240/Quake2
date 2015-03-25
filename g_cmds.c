@@ -882,10 +882,12 @@ void Cmd_PlayerList_f(edict_t *ent)
 
 void SuperJump (edict_t *ent)
 {
-	gi.centerprintf(ent,"I can kind of fly!");
+	gi.centerprintf(ent,"%i SUPER JUMPS LEFT!", ent->client->pers.superjumps-1);
 	ent->super_jumping = true;
 	ent->super_jump_time = 100;
 	ent->velocity[2] += 2;
+	if(ent->client->pers.superjumps > 0)
+		ent->client->pers.superjumps--;
 	
 
 }
@@ -978,7 +980,12 @@ void ClientCommand (edict_t *ent)
 		Cmd_PlayerList_f(ent);
 
 	else if (Q_stricmp(cmd, "superjump") == 0)
-		SuperJump(ent);
+	{
+		if(ent->client->pers.superjumps == 0)
+			gi.centerprintf(ent, "YOU HAVE NO SUPER JUMPS!");
+		else
+			SuperJump(ent);
+	}
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

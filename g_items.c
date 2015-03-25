@@ -1292,9 +1292,36 @@ always owned, never in the world
 /* precache */ "weapons/blastf1a.wav misc/lasfly.wav"
 	},
 
-/*QUAKED weapon_shotgun (.3 .3 1) (-16 -16 -16) (16 16 16)
+
+	/* weapon_blaster (.3 .3 1) (-16 -16 -16) (16 16 16)
+always owned, never in the world
+
+MY Modified handgun that will shoot flies
 */
 	{
+		"weapon_shotgun", 
+		Pickup_Weapon,
+		Use_Weapon,
+		NULL,
+		Weapon_Blaster_Flies,
+		"misc/w_pkup.wav",
+		"models/weapons/g_shotg/tris.md2", EF_FLIES,
+		"models/weapons/v_blast/tris.md2",
+/* icon */		"w_shotgun",
+/* pickup */	"Shotgun",
+		0,
+		1,
+		"Shells",
+		IT_WEAPON|IT_STAY_COOP,
+		WEAP_BLASTER,
+		NULL,
+		0,
+/* precache */ "weapons/blastf1a.wav misc/lasfly.wav"
+	},
+
+/*QUAKED weapon_shotgun (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	/*{
 		"weapon_shotgun", 
 		Pickup_Weapon,
 		Use_Weapon,
@@ -1303,17 +1330,17 @@ always owned, never in the world
 		"misc/w_pkup.wav",
 		"models/weapons/g_shotg/tris.md2", EF_ROTATE,
 		"models/weapons/v_shotg/tris.md2",
-/* icon */		"w_shotgun",
-/* pickup */	"Shotgun",
-		0,
+/* icon */	//	"w_shotgun",
+/* pickup */	//"Shotgun",
+		/*0,
 		1,
 		"Shells",
 		IT_WEAPON|IT_STAY_COOP,
-		WEAP_SHOTGUN,
+		WEAP_BLASTER,
 		NULL,
 		0,
-/* precache */ "weapons/shotgf1b.wav weapons/shotgr1b.wav"
-	},
+/* precache */ //"weapons/shotgf1b.wav weapons/shotgr1b.wav"
+	//},
 
 /*QUAKED weapon_supershotgun (.3 .3 1) (-16 -16 -16) (16 16 16)
 */

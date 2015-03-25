@@ -3,7 +3,7 @@
 
 void SP_Monster_Barrel (edict_t *self);
 void SP_monster_berserk (edict_t *self);
-void SP_misc_explobox (edict_t *self);	//adds button to press and begin monster spawn
+void SP_misc_explobox (edict_t *self);	//box to explode and begin monster spawn
 void ClientUserinfoChanged (edict_t *ent, char *userinfo);
 void SP_misc_teleporter_dest (edict_t *ent);
 
@@ -1102,7 +1102,6 @@ void PutClientInServer (edict_t *ent)
 	// do it before setting health back up, so farthest
 	// ranging doesn't count this client
 	SelectSpawnPoint (ent, spawn_origin, spawn_angles);
-	//gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! 2", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
 	
 	index = ent-g_edicts-1;
 	client = ent->client;
@@ -1267,6 +1266,7 @@ void ClientBeginDeathmatch (edict_t *ent)
 	edict_t *firstExplodeBarrel;
 	gclient_t *client;
 	G_InitEdict (ent);
+	
 
 
 	InitClientResp (ent->client);
@@ -1293,36 +1293,36 @@ void ClientBeginDeathmatch (edict_t *ent)
 	}
 
 	gi.bprintf (PRINT_HIGH, "%s entered the game\n", ent->client->pers.netname);
-	//gi.bprintf(PRINT_MEDIUM, "%f %f %f IS YOU! 3", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
-
+	
 	// make sure all view stuff is valid
 	ClientEndServerFrame (ent);
 
-	//trying to set start position of barrell that spawns at beginning of the match
-	/*
-	firstExplodeBarrel = G_Spawn();
-	firstExplodeBarrel->s.origin[0] = 1224.875;
-	firstExplodeBarrel->s.origin[1] = 632.000;
-	firstExplodeBarrel->s.origin[2] = 472.125;
-	*/
-	//SP_monster_berserk(mybadguy);		spawning explode box instead of monster
+	
 	SP_Monster_Barrel(firstExplodeBarrel);
+	
 }
 
 //Function that spawns exploding barrel at specific location
 
 void SP_Monster_Barrel (edict_t *self)
 {
-	//edict_t *firstExplodeBarrel;
-	
-	//trying to set start position of barrell that spawns at beginning of the match
-	self = G_Spawn();
-	self->s.origin[0] = 1224.875;
-	self->s.origin[1] = 632.000;
-	self->s.origin[2] = 472.125;
-	
-	SP_misc_explobox(self);
+	int count,i;
+	count = 0;
 
+	//Calculcates how many clients are connected to game
+	for (i = 0 ; i < maxclients->value ; i++)
+		if (game.clients[i].pers.connected)
+		{
+			count++;
+		}
+	gi.centerprintf(self, "%i Players in this game", count);
+	//Verifies that only one barrel spawns (in the middle) at beginning of the match
+	if(count<2)
+	{
+		self = G_Spawn();
+		VectorSet (self->s.origin, 1224.875, 632.000, 472.125);
+		SP_misc_explobox(self);
+	}
 	
 }
 /*
@@ -1824,7 +1824,8 @@ void ClientBeginServerFrame (edict_t *ent)
 		return;
 
 	client = ent->client;
-	gi.centerprintf(ent,"Super Jumps: %i / %i \n",client->pers.superjumps,client->pers.maxsuperjumps);
+	//PRINTS ON SCREEN HOW MANY SUPERJUMPS YOU HAVE
+	//gi.centerprintf(ent,"Super Jumps: %i / %i \n",client->pers.superjumps,client->pers.maxsuperjumps);
 
 	if (deathmatch->value &&
 		client->pers.spectator != client->resp.spectator &&
