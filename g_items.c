@@ -1345,7 +1345,7 @@ MY Modified handgun that will shoot flies
 	//},
 
 	/*
-	MY Modified handgun that will shoot flies
+	MY Modified handgun that will shoot Glow Bullets
 	
 */
 	{
@@ -1359,6 +1359,30 @@ MY Modified handgun that will shoot flies
 		"models/weapons/v_blast/tris.md2",
 /* icon */		"w_machinegun",
 /* pickup */	"Machinegun",
+		0,
+		1,
+		"Bullets",
+		IT_WEAPON|IT_STAY_COOP,
+		WEAP_BLASTER,
+		NULL,
+		0,
+/* precache */ "weapons/blastf1a.wav misc/lasfly.wav"
+	},
+	/*
+	MY Modified handgun that will shoot RAPID FIRE GLOW bullets
+	
+*/
+	{
+		"weapon_chaingun", 
+		Pickup_Weapon,
+		Use_Weapon,
+		NULL,
+		Weapon_Blaster_Rapid,
+		"misc/w_pkup.wav",
+		"models/weapons/g_chain/tris.md2", EF_BFG,
+		"models/weapons/v_blast/tris.md2",
+/* icon */		"w_chaingun",
+/* pickup */	"Chaingun",
 		0,
 		1,
 		"Bullets",
@@ -1393,28 +1417,7 @@ MY Modified handgun that will shoot flies
 
 
 
-/*QUAKED weapon_chaingun (.3 .3 1) (-16 -16 -16) (16 16 16)
-*/
-	{
-		"weapon_chaingun", 
-		Pickup_Weapon,
-		Use_Weapon,
-		Drop_Weapon,
-		Weapon_Chaingun,
-		"misc/w_pkup.wav",
-		"models/weapons/g_chain/tris.md2", EF_ROTATE,
-		"models/weapons/v_chain/tris.md2",
-/* icon */		"w_chaingun",
-/* pickup */	"Chaingun",
-		0,
-		1,
-		"Bullets",
-		IT_WEAPON|IT_STAY_COOP,
-		WEAP_CHAINGUN,
-		NULL,
-		0,
-/* precache */ "weapons/chngnu1a.wav weapons/chngnl1a.wav weapons/machgf3b.wav` weapons/chngnd1a.wav"
-	},
+
 
 /*QUAKED ammo_grenades (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
@@ -1448,7 +1451,7 @@ MY Modified handgun that will shoot flies
 		Drop_Weapon,
 		Weapon_GrenadeLauncher,
 		"misc/w_pkup.wav",
-		"models/weapons/g_launch/tris.md2", EF_ROTATE,
+		"models/weapons/g_launch/tris.md2", EF_GIB,
 		"models/weapons/v_launch/tris.md2",
 /* icon */		"w_glauncher",
 /* pickup */	"Grenade Launcher",
@@ -1468,10 +1471,10 @@ MY Modified handgun that will shoot flies
 		Pickup_Weapon,
 		Use_Weapon,
 		Drop_Weapon,
-		Weapon_RocketLauncher,
+		Weapon_PistolRocket,
 		"misc/w_pkup.wav",
 		"models/weapons/g_rocket/tris.md2", EF_ROTATE,
-		"models/weapons/v_rocket/tris.md2",
+		"models/weapons/v_blast/tris.md2",
 /* icon */		"w_rlauncher",
 /* pickup */	"Rocket Launcher",
 		0,

@@ -680,6 +680,7 @@ void SP_SuperJump_Powerup (edict_t *self);
 void SP_item_health_mega (edict_t *self);
 void Weapon_Blaster_Fire_Hyper (edict_t *ent);
 void Weapon_Blaster_Hyper (edict_t *ent);
+void Weapon_Blaster_Rapid (edict_t *ent);
 //
 // g_misc.c
 //
@@ -1104,7 +1105,8 @@ struct edict_s
 	qboolean	super_jumping;
 	int			super_jump_time;
 	int			super_jumps;
-	
+	qboolean	stunned;
+	float		stunned_time;
 	
 };
 

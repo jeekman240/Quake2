@@ -115,6 +115,12 @@ qboolean Pickup_Weapon (edict_t *ent, edict_t *other)
 	//ANNOUNCE TO PLAYER WHICH GUN/POWERUP THEY HAVE JUST PICKED UP
 	if(!Q_stricmp (ent->item->pickup_name, "Shotgun"))
 		gi.centerprintf(other, "Pistol of Flies");
+	else if(!Q_stricmp (ent->item->pickup_name, "Machinegun"))
+		gi.centerprintf(other, "Pistol of Glow");
+	else if(!Q_stricmp (ent->item->pickup_name, "Chaingun"))
+		gi.centerprintf(other, "Pistol of Rapid Fire");
+	else if(!Q_stricmp (ent->item->pickup_name, "Rocket Launcher"))
+		gi.centerprintf(other, "Pistol of Rockets");
 
 	if (!(ent->spawnflags & DROPPED_ITEM) )
 	{
@@ -847,6 +853,14 @@ void Weapon_Blaster_Fire (edict_t *ent)
 	ent->client->ps.gunframe++;
 }
 
+void Weapon_Blaster (edict_t *ent)
+{
+	static int	pause_frames[]	= {19, 32, 0};
+	static int	fire_frames[]	= {5, 0};
+
+	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
+}
+
 //POWERUP THAT SHOOTS FLIES changed EF_BLASTER to EF_FLIES
 void Weapon_Blaster_Fire_Flies (edict_t *ent)
 {
@@ -863,6 +877,15 @@ void Weapon_Blaster_Fire_Flies (edict_t *ent)
 		ent->client->pers.inventory[ent->client->ammo_index]--;
 }
 
+void Weapon_Blaster_Flies (edict_t *ent)
+{
+	static int	pause_frames[]	= {19, 32, 0};
+	static int	fire_frames[]	= {5, 0};
+
+	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire_Flies);
+}
+
+//FIRES BULLET FOR PISTOL OF GLOW
 void Weapon_Blaster_Fire_Hyper (edict_t *ent)
 {
 	int		damage;
@@ -877,29 +900,6 @@ void Weapon_Blaster_Fire_Hyper (edict_t *ent)
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		ent->client->pers.inventory[ent->client->ammo_index]--;
 }
-void  Weapon_PistolRocket (edict_t *ent)
-{
-	static int	pause_frames[]	= {19, 32, 0};
-	static int	fire_frames[]	= {5, 0};
-
-	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
-}
-
-void Weapon_Blaster (edict_t *ent)
-{
-	static int	pause_frames[]	= {19, 32, 0};
-	static int	fire_frames[]	= {5, 0};
-
-	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
-}
-
-void Weapon_Blaster_Flies (edict_t *ent)
-{
-	static int	pause_frames[]	= {19, 32, 0};
-	static int	fire_frames[]	= {5, 0};
-
-	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire_Flies);
-}
 
 void Weapon_Blaster_Hyper (edict_t *ent)
 {
@@ -908,7 +908,28 @@ void Weapon_Blaster_Hyper (edict_t *ent)
 
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire_Hyper);
 }
-void Weapon_HyperBlaster_Fire (edict_t *ent)
+//Pistol of Rockets
+void  Weapon_PistolRocket (edict_t *ent)
+{
+	static int	pause_frames[]	= {19, 32, 0};
+	static int	fire_frames[]	= {5, 0};
+
+	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
+}
+
+
+
+
+
+
+void Weapon_Blaster_Rapid (edict_t *ent)
+{
+	static int	pause_frames[]	= {38, 43, 51, 61, 0};
+	static int	fire_frames[]	= {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0};
+
+	Weapon_Generic (ent, 4, 31, 61, 64, pause_frames, fire_frames, Weapon_Blaster_Fire_Hyper);
+}
+	void Weapon_HyperBlaster_Fire (edict_t *ent)
 {
 	float	rotation;
 	vec3_t	offset;
@@ -944,7 +965,7 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 			else
 				effect = 0;
 			if (deathmatch->value)
-				damage = 15;
+				damage = 0;
 			else
 				damage = 20;
 			Blaster_Fire (ent, offset, damage, true, effect);
@@ -1374,8 +1395,9 @@ void weapon_railgun_fire (edict_t *ent)
 
 	VectorSet(offset, 0, 7,  ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
+	
 	fire_rail (ent, start, forward, damage, kick);
-
+	
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
