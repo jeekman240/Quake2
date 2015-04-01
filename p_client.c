@@ -612,8 +612,8 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.max_shells		= 100;
 	client->pers.max_rockets	= 50;
 	client->pers.max_grenades	= 50;
-	client->pers.max_cells		= 200;
-	client->pers.max_slugs		= 50;
+	client->pers.max_cells		= 1;
+	client->pers.max_slugs		= 1;
 
 	client->pers.connected = true;
 
@@ -1858,9 +1858,7 @@ void ClientBeginServerFrame (edict_t *ent)
 		return;
 
 	client = ent->client;
-	//PRINTS ON SCREEN HOW MANY SUPERJUMPS YOU HAVE
-	//gi.centerprintf(ent,"Super Jumps: %i / %i \n",client->pers.superjumps,client->pers.maxsuperjumps);
-
+	
 	if (deathmatch->value &&
 		client->pers.spectator != client->resp.spectator &&
 		(level.time - client->respawn_time) >= 5) {

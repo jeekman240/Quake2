@@ -399,15 +399,36 @@ void M_MoveFrame (edict_t *self)
 
 void monster_think (edict_t *self)
 {
-	M_MoveFrame (self);
-	if (self->linkcount != self->monsterinfo.linkcount)
+	
+	if(self->stunned && self->stunned_time >= 0)
 	{
-		self->monsterinfo.linkcount = self->linkcount;
-		M_CheckGround (self);
+		self->stunned_time -= 1;
+		
+
+		if (self->linkcount != self->monsterinfo.linkcount)
+		{
+			self->monsterinfo.linkcount = self->linkcount;
+			M_CheckGround (self);
+		}
+		M_CatagorizePosition (self);
+		M_WorldEffects (self);
+		M_SetEffects (self);
+		
+
 	}
-	M_CatagorizePosition (self);
-	M_WorldEffects (self);
-	M_SetEffects (self);
+	else
+	{
+		self->stunned = false;
+		M_MoveFrame (self);
+		if (self->linkcount != self->monsterinfo.linkcount)
+		{
+			self->monsterinfo.linkcount = self->linkcount;
+			M_CheckGround (self);
+		}
+		M_CatagorizePosition (self);
+		M_WorldEffects (self);
+		M_SetEffects (self);
+	}
 }
 
 

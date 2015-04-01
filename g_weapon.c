@@ -670,6 +670,8 @@ void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick
 
 			if ((tr.ent != self) && (tr.ent->takedamage))
 				T_Damage (tr.ent, self, self, aimdir, tr.endpos, tr.plane.normal, 0, kick, 0, MOD_RAILGUN);
+			if(tr.ent != self)
+				tr.ent->stunned = true;
 				
 		}
 

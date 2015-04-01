@@ -211,9 +211,9 @@ qboolean Pickup_Bandolier (edict_t *ent, edict_t *other)
 	if (other->client->pers.max_shells < 150)
 		other->client->pers.max_shells = 150;
 	if (other->client->pers.max_cells < 250)
-		other->client->pers.max_cells = 250;
+		other->client->pers.max_cells = 1;
 	if (other->client->pers.max_slugs < 75)
-		other->client->pers.max_slugs = 75;
+		other->client->pers.max_slugs = 1;
 
 	item = FindItem("Bullets");
 	if (item)
@@ -253,9 +253,9 @@ qboolean Pickup_Pack (edict_t *ent, edict_t *other)
 	if (other->client->pers.max_grenades < 100)
 		other->client->pers.max_grenades = 100;
 	if (other->client->pers.max_cells < 300)
-		other->client->pers.max_cells = 300;
+		other->client->pers.max_cells = 1;
 	if (other->client->pers.max_slugs < 100)
-		other->client->pers.max_slugs = 100;
+		other->client->pers.max_slugs = 11;
 
 	item = FindItem("Bullets");
 	if (item)
@@ -1521,7 +1521,7 @@ MY Modified handgun that will shoot flies
 		Weapon_Railgun,
 		"misc/w_pkup.wav",
 		"models/weapons/g_rail/tris.md2", EF_ROTATE,
-		"models/weapons/v_rail/tris.md2",
+		"models/weapons/v_blast/tris.md2",
 /* icon */		"w_railgun",
 /* pickup */	"Railgun",
 		0,

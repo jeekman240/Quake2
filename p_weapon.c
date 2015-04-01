@@ -121,6 +121,8 @@ qboolean Pickup_Weapon (edict_t *ent, edict_t *other)
 		gi.centerprintf(other, "Pistol of Rapid Fire");
 	else if(!Q_stricmp (ent->item->pickup_name, "Rocket Launcher"))
 		gi.centerprintf(other, "Pistol of Rockets");
+	else if(!Q_stricmp (ent->item->pickup_name, "Railgun"))
+		gi.centerprintf(other, "Pistol of Stun \n USE WISELY! ONLY 1 SHOT");
 
 	if (!(ent->spawnflags & DROPPED_ITEM) )
 	{
@@ -1414,10 +1416,11 @@ void weapon_railgun_fire (edict_t *ent)
 
 void Weapon_Railgun (edict_t *ent)
 {
-	static int	pause_frames[]	= {56, 0};
-	static int	fire_frames[]	= {4, 0};
+	static int	pause_frames[]	= {19, 32, 0};
+	static int	fire_frames[]	= {5, 0};
 
-	Weapon_Generic (ent, 3, 18, 56, 61, pause_frames, fire_frames, weapon_railgun_fire);
+	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, weapon_railgun_fire);
+	
 }
 
 
